@@ -20,7 +20,8 @@ const getPrediction = async (req, res) => {
   };
 
   try {
-    const { data } = await axios.post('http://localhost:5001/predict', payload);
+    const ML_URL = process.env.ML_SERVICE_URL || 'http://localhost:5001';
+    const { data } = await axios.post(`${ML_URL}/predict`, payload);
     res.json({ success: true, data: data.prediction });
   } catch (error) {
     res.status(503);

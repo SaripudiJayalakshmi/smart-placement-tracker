@@ -30,7 +30,8 @@ const getRecommendations = async (req, res) => {
   };
 
   try {
-    const { data } = await axios.post('http://localhost:5001/recommend', payload);
+    const ML_URL = process.env.ML_SERVICE_URL || 'http://localhost:5001';
+    const { data } = await axios.post(`${ML_URL}/recommend`, payload);
     res.json({ success: true, data: data.recommendations });
   } catch (error) {
     res.status(503);
