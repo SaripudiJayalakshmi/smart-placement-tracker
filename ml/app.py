@@ -163,5 +163,7 @@ def recommend():
         return jsonify({'success': False, 'message': str(e)}), 400
 if __name__ == '__main__':
     load_model()
-    app.run(port=5001, debug=True)
+    import os
+    port = int(os.environ.get('PORT', 5001))
+    app.run(host='0.0.0.0', port=port, debug=False)
     
