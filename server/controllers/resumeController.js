@@ -8,7 +8,8 @@ const uploadResume = async (req, res) => {
     throw new Error('Please upload a PDF file');
   }
 
-  const resumeUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+  const baseUrl = process.env.BASE_URL || `http://localhost:5000`;
+  const resumeUrl = `${baseUrl}/uploads/${req.file.filename}`;
 
   const student = await Student.findOneAndUpdate(
     { user: req.user._id },
@@ -40,13 +41,12 @@ const deleteResume = async (req, res) => {
 
   student.resumeUrl = '';
   await student.save();
-
   res.json({ success: true, message: 'Resume deleted' });
 };
+
 const getResume = async (req, res) => {
   const student = await Student.findOne({ user: req.user._id });
   res.json({ success: true, resumeUrl: student?.resumeUrl || '' });
 };
 
 module.exports = { uploadResume, deleteResume, getResume };
-
